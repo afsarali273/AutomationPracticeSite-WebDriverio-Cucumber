@@ -41,6 +41,23 @@ class MyAccount {
 
   navigateToAddress = async () => {
     await this.btnMyAddress.click();
+
+    // address validation
+
+    const name = await this.txtGetAddressName.getText();
+    const companyAddress = await this.txtAddressCompany.getText();
+    const address1 = await this.txtAddress1.getText();
+    const address2 = await this.txtAddress2.getText();
+
+    expect(name).toBe(
+      global.SharedVariable.address.firstName +
+        " " +
+        global.SharedVariable.address.lastName
+    );
+
+    expect(companyAddress).toBe(global.SharedVariable.address.company);
+    expect(address1).toBe(global.SharedVariable.address.address1);
+    expect(address2).toBe(global.SharedVariable.address.address2);
   };
 }
 
