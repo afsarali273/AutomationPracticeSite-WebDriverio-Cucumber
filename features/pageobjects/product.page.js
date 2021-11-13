@@ -1,4 +1,5 @@
 import commonPage from "../pageobjects/common.page";
+import utils from '../utils/Utils'
 
 class ProductPage {
   //   get category() {
@@ -187,19 +188,19 @@ class ProductPage {
     await expect(
       await this.txt_DeliveryAddressFirstNameLastName.getText()
     ).toEqual(
-      global.SharedVariable.address.firstName +
-        " " +
-        global.SharedVariable.address.lastName
+      utils.staticData.address.firstName +
+      " " +
+      utils.staticData.address.lastName
     );
 
     await expect(await this.txt_DeliveryAddressCompany.getText()).toEqual(
-      global.SharedVariable.address.company
+      utils.staticData.address.company
     );
 
     await expect(await this.txt_DeliveryAdd_Add1_Add2.getText()).toEqual(
-      global.SharedVariable.address.address1 +
-        " " +
-        global.SharedVariable.address.address2
+      utils.staticData.address.address1 +
+      " " +
+      utils.staticData.address.address2
     );
 
     // Navigate to Shipping page

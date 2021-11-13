@@ -1,3 +1,12 @@
+import allureReporter from '@wdio/allure-reporter'
+let allure_config = {
+  outputDir: 'allure-results',
+  disableWebdriverStepsReporting: true,
+  disableWebdriverScreenshotsReporting: false,
+  useCucumberStepReporter: true,
+  addConsoleLogs: true
+};
+
 exports.config = {
   //
   // ====================
@@ -131,7 +140,7 @@ exports.config = {
   // Test reporter for stdout.
   // The only one supported by default is 'dot'
   // see also: https://webdriver.io/docs/dot-reporter
-  reporters: ["spec"],
+  reporters: ["spec", ['allure', allure_config]],
 
   //
   // If you are using Cucumber you need to specify the location of your step definitions.
@@ -207,7 +216,10 @@ exports.config = {
    * @param {Array.<String>} specs        List of spec file paths that are to be run
    * @param {Object}         browser      instance of created browser/device session
    */
-  before: function (capabilities, specs) {},
+  before: function (capabilities, specs) {
+
+    allureReporter.addLabel("Initial configuration");
+  },
   /**
    * Runs before a WebdriverIO command gets executed.
    * @param {String} commandName hook command name
@@ -223,10 +235,8 @@ exports.config = {
    * @param {GherkinDocument.IFeature} feature  Cucumber feature object
    */
   beforeFeature: function (uri, feature) {
-    global.SharedVariable = {
-      email: "",
-      address: {},
-    };
+
+    allureReporter.addStep("Starting Fetaure : " + feature.name);
 
     browser.maximizeWindow();
   },
@@ -235,8 +245,10 @@ exports.config = {
    * Runs before a Cucumber Scenario.
    * @param {ITestCaseHookParameter} world world object containing information on pickle and test step
    */
-  // beforeScenario: function (world) {
-  // },
+  beforeScenario: function (world) {
+
+    allureReporter.addFeature(world.name);
+  },
   /**
    *
    * Runs before a Cucumber Step.
@@ -255,8 +267,12 @@ exports.config = {
    * @param {string}             result.error    error stack if scenario failed
    * @param {number}             result.duration duration of scenario in milliseconds
    */
-  // afterStep: function (step, scenario, result) {
-  // },
+  afterStep: function (step, scenario, result) {
+
+    if (!result.passed)
+      browser.takeScreenshot();
+
+  },
   /**
    *
    * Runs before a Cucumber Scenario.
