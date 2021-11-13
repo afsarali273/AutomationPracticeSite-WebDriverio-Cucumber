@@ -4,7 +4,9 @@
   "description": "Cucumber Webdriverio v7 Project ",
   "main": "index.js",
   "scripts": {
-    "test": "./node_modules/.bin/wdio run wdio.conf.js"
+    "test:sanity": "./node_modules/.bin/wdio run wdio.conf.js --cucumberOpts.tagExpression='@sanity'",
+    "test:regression": "./node_modules/.bin/wdio run wdio.conf.js --cucumberOpts.tagExpression='@regression'",
+    "generate-report": "allure generate allure-results --clean && allure open"
   },
   "author": "Afsar Ali",
   "license": "ISC",
@@ -12,15 +14,17 @@
     "@babel/core": "^7.15.5",
     "@babel/preset-env": "^7.15.6",
     "@babel/register": "^7.15.3",
+    "@wdio/allure-reporter": "^7.16.3",
     "@wdio/cli": "^7.14.0",
     "@wdio/cucumber-framework": "^7.13.2",
     "@wdio/local-runner": "^7.13.2",
     "@wdio/spec-reporter": "^7.13.2",
     "chromedriver": "^94.0.0",
-    "wdio-chromedriver-service": "^7.2.2",
-    "faker": "^5.5.3"
+    "faker": "^5.5.3",
+    "wdio-chromedriver-service": "^7.2.2"
   },
   "dependencies": {
+    "allure-commandline": "^2.13.8",
     "expect-webdriverio": "^3.1.3"
   }
 }

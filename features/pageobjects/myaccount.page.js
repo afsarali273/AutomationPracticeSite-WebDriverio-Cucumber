@@ -1,3 +1,5 @@
+import utils from '../utils/Utils'
+
 class MyAccount {
   //  Page Objects
   get btnMyAddress() {
@@ -50,14 +52,14 @@ class MyAccount {
     const address2 = await this.txtAddress2.getText();
 
     expect(name).toBe(
-      global.SharedVariable.address.firstName +
-        " " +
-        global.SharedVariable.address.lastName
+      utils.dynamicData.address.firstName +
+      " " +
+      utils.dynamicData.address.lastName
     );
 
-    expect(companyAddress).toBe(global.SharedVariable.address.company);
-    expect(address1).toBe(global.SharedVariable.address.address1);
-    expect(address2).toBe(global.SharedVariable.address.address2);
+    expect(companyAddress).toBe(utils.dynamicData.address.company);
+    expect(address1).toBe(utils.dynamicData.address.address1);
+    expect(address2).toBe(utils.dynamicData.address.address2);
   };
 }
 

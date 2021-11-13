@@ -1,3 +1,5 @@
+
+import utils from '../utils/Utils'
 class ContactPage {
   get drpdownSubjectHeading() {
     return $("#id_contact");
@@ -25,15 +27,15 @@ class ContactPage {
     await this.drpdownSubjectHeading.selectByVisibleText("Customer service");
 
     await expect(await this.inputEmailAddress.getValue()).toEqual(
-      global.SharedVariable.email
+      utils.staticData.email
     );
 
     await this.dropdownOrderReference.selectByIndex(1);
 
     await this.inputMessage.setValue(
       "Hi There,\n" +
-        "I got some issue with my product which i bought yesterday.Can you please help me with refund the amount!\n" +
-        "Thanks"
+      "I got some issue with my product which i bought yesterday.Can you please help me with refund the amount!\n" +
+      "Thanks"
     );
 
     await this.btnSubmit.click();
