@@ -31,6 +31,6 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: allure reports
-        path: alloure-report
+        path: allure-report
     
     
