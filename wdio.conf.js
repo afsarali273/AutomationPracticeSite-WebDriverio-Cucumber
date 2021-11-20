@@ -87,7 +87,7 @@ exports.config = {
   baseUrl: "http://localhost",
   //
   // Default timeout for all waitFor* commands.
-  waitforTimeout: 10000,
+  waitforTimeout: 20000,
   //
   // Default timeout in milliseconds for request
   // if browser driver or grid doesn't send response
@@ -216,20 +216,20 @@ exports.config = {
    * @param {String}                   uri      path to feature file
    * @param {GherkinDocument.IFeature} feature  Cucumber feature object
    */
-  beforeFeature: function (uri, feature) {
+  beforeFeature: async function (uri, feature) {
 
     allureReporter.addStep("Starting Fetaure : " + feature.name);
 
-    browser.maximizeWindow();
+    await browser.maximizeWindow();
   },
   /**
    *
    * Runs before a Cucumber Scenario.
    * @param {ITestCaseHookParameter} world world object containing information on pickle and test step
    */
-  beforeScenario: function (world) {
+  beforeScenario: async function (world) {
 
-    allureReporter.addFeature(world.name);
+    await allureReporter.addFeature(world.name);
   },
   /**
    *
@@ -249,10 +249,10 @@ exports.config = {
    * @param {string}             result.error    error stack if scenario failed
    * @param {number}             result.duration duration of scenario in milliseconds
    */
-  afterStep: function (step, scenario, result) {
+  afterStep: async function (step, scenario, result) {
 
     if (!result.passed)
-      browser.takeScreenshot();
+      await browser.takeScreenshot();
 
   },
   /**
