@@ -1,3 +1,4 @@
+@regression
 Feature: SignUp, Sign In and Purchase Product
 
     @sanity
@@ -12,9 +13,8 @@ Feature: SignUp, Sign In and Purchase Product
         When Login using newly created dynamic credentials
         Then I shall verify the address information in my addresses section
 
-    @regression
+
     Scenario:TC-003 Add product to Online Cart and checkout
-        Given I am on the home page
         Given I am on the Sign In Page
         When Login using newly created static credentials
         When I add below products to cart
@@ -28,7 +28,6 @@ Feature: SignUp, Sign In and Purchase Product
         Then I shall be able to Buy the product
         And  I shall be able to Buy using cheque payment
 
-    @regression
     Scenario:TC-004 Contact customer service for the previous successful order
         Given I am on the Sign In Page
         When Login using newly created static credentials
