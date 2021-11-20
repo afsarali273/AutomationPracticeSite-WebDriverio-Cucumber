@@ -35,7 +35,6 @@ jobs:
 
   sanity:
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v2
     - name: SetUp NodeJs
@@ -56,4 +55,25 @@ jobs:
         name: allure reports-2
         path: allure-report      
     
+ alltests:
+    needs: [regression, sanity]
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: SetUp NodeJs
+      uses: actions/setup-node@v1
+      with:
+        node-version: 16.3.0
+    - run: npm install
+    - run: npm run test
+    - name: Install Allure CommandLine 
+      run: npm i -g allure-commandline
+    - name: Generate Allure Reports
+      run: npm run generate-report
+    - run: ls -lrt 
     
+    - name: upload artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: allure reports-3
+        path: allure-report        
