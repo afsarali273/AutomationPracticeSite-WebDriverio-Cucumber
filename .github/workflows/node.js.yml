@@ -28,6 +28,7 @@ jobs:
     - run: ls -lrt 
     
     - name: upload artifacts
+      if: always()
       uses: actions/upload-artifact@v2
       with:
         name: json-1
@@ -50,12 +51,14 @@ jobs:
     - run: ls -lrt 
     
     - name: upload artifacts
+      if: always()
       uses: actions/upload-artifact@v2
       with:
         name: json-2
         path: reporter/json      
     
   final_report:
+    if: always()
     needs: [regression, sanity]
     runs-on: ubuntu-latest
     steps:
