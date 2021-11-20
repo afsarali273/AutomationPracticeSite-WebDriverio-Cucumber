@@ -102,7 +102,7 @@ class ProductPage {
         const subCat = await value.getText();
 
         if (subCat === element.subCategory) {
-          await value.waitForClickable({ timeout: 10000 })
+
           await value.click();
           return;
         }
@@ -113,7 +113,6 @@ class ProductPage {
         const productName = await value.getText();
 
         if (productName === element.name) {
-          await value.waitForClickable({ timeout: 10000 })
           await value.click();
           return;
         }
