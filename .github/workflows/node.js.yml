@@ -82,13 +82,13 @@ jobs:
     
     # Run command to generate Html report
     - name: Install
-        run: npm install  
+      run: npm install  
     - run: |
         mkdir reporter/json
         mv -v report-1/*.json ./reporter/json/report_1.json
         mv -v report-2/*.json ./reporter/json/report_2.json 
         npm run generate-report:cucumber-html
-        
+
     - name: Final Test Reports
       uses: actions/upload-artifact@v2
       with:
