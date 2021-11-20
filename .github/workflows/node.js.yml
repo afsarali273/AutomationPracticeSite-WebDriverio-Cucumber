@@ -55,7 +55,7 @@ jobs:
         name: allure reports-2
         path: allure-report      
     
- alltests:
+  alltests:
     needs: [regression, sanity]
     runs-on: ubuntu-latest
     steps:
