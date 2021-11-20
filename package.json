@@ -4,6 +4,7 @@
   "description": "Cucumber Webdriverio v7 Project ",
   "main": "index.js",
   "scripts": {
+    "test": "./node_modules/.bin/wdio run wdio.conf.js",
     "test:sanity": "./node_modules/.bin/wdio run wdio.conf.js --cucumberOpts.tagExpression='@sanity'",
     "test:regression": "./node_modules/.bin/wdio run wdio.conf.js --cucumberOpts.tagExpression='@regression'",
     "generate-report": "allure generate allure-results --clean && allure open"
