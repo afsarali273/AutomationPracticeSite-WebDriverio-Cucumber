@@ -24,7 +24,7 @@ jobs:
     - name: Install Allure CommandLine 
       run: npm i -g allure-commandline
     - name: Generate Allure Reports
-      run: npm run generate:report
+      run: npm run generate-report
     - run: ls -lrt 
     
     - name: upload artifacts
