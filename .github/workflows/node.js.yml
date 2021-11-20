@@ -29,8 +29,8 @@ jobs:
     
     - name: upload artifacts
       uses: actions/upload-artifact@v2
-        with:
-          name: allure reports
-          path: alloure-report
+      with:
+        name: allure reports
+        path: alloure-report
     
     
