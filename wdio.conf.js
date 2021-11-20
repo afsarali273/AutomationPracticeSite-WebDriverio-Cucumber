@@ -37,7 +37,7 @@ exports.config = {
   // ============
   // Capabilities
   // ============
-
+  maxInstances: 1,
   capabilities: [
     {
       maxInstances: 1,
@@ -198,10 +198,10 @@ exports.config = {
    * @param {Array.<String>} specs        List of spec file paths that are to be run
    * @param {Object}         browser      instance of created browser/device session
    */
-  before: function (capabilities, specs) {
+  // before: async function (capabilities, specs) {
 
-    allureReporter.addLabel("Initial configuration");
-  },
+  //    allureReporter.addLabel("Initial configuration");
+  // },
   /**
    * Runs before a WebdriverIO command gets executed.
    * @param {String} commandName hook command name
