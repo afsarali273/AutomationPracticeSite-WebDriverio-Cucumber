@@ -19,8 +19,8 @@ Feature: SignUp, Sign In and Purchase Product
         When Login using newly created static credentials
         When I add below products to cart
             | category | subCategory    | name                        | model  | quantity |
-            | Dresses  | CASUAL DRESSES | Printed Dress               | demo_3 | 2        |
-            | Women    | TOPS           | Faded Short Sleeve T-shirts | demo_1 | 3        |
+            | Dresses  | Casual Dresses | Printed Dress               | demo_3 | 2        |
+            | Women    | Tops           | Faded Short Sleeve T-shirts | demo_1 | 3        |
         Then I shall validate shopping cart as below
             | name                        | model        | quantity |
             | Printed Dress               | SKU : demo_3 | 2        |

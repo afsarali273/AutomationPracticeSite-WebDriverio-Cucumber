@@ -26,6 +26,7 @@ Then(/^create an account with random username$/, async () => {
 });
 
 Given(/^I am on the Sign In Page$/, async () => {
+
   if (await HomePage.btnSignOut.isExisting()) {
     await authPage.signOut();
   }
@@ -47,5 +48,5 @@ Given(/^Login using newly created (dynamic|static) credentials$/, async (credent
     email = utils.staticData.email;
   }
   await authPage.signIn(email);
-  allureReporter.addSeverity("minor")
+
 });

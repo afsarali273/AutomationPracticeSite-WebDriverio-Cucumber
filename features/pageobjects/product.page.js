@@ -98,15 +98,19 @@ class ProductPage {
       await btnCategory.click();
 
       //SubCategory
-      this.btnSubCategory.forEach(async (value) => {
-        const subCat = await value.getText();
+      // this.btnSubCategory.forEach(async (value) => {
+      //   const subCat = await value.getText();
 
-        if (subCat === element.subCategory) {
+      //   if (subCat === element.subCategory) {
 
-          await value.click();
-          return;
-        }
-      });
+      //     await value.click();
+      //     return;
+      //   }
+      // });
+
+      const btnSubCategory = $(`//*[@class='subcategory-image']/a[contains(@title,'${element.subCategory}')]`);
+
+      await btnSubCategory.click();
 
       //select product
       this.txtProductTitle.forEach(async (value) => {
