@@ -1,4 +1,6 @@
 import allureReporter from '@wdio/allure-reporter'
+import cucumberJson from 'wdio-cucumberjs-json-reporter';
+
 let allure_config = {
   outputDir: 'allure-results',
   disableWebdriverStepsReporting: true,
@@ -123,7 +125,13 @@ exports.config = {
   // Test reporter for stdout.
   // The only one supported by default is 'dot'
   // see also: https://webdriver.io/docs/dot-reporter
-  reporters: ["spec", ['allure', allure_config]],
+  reporters: ["spec", ['allure', allure_config],
+
+    ['cucumberjs-json', {
+      jsonFolder: 'reporter/json/',
+      language: 'en',
+    },],
+  ],
 
   //
   // If you are using Cucumber you need to specify the location of your step definitions.
@@ -252,9 +260,7 @@ exports.config = {
    */
   afterStep: async function (step, scenario, result) {
 
-    if (!result.passed)
-      await browser.takeScreenshot();
-
+    cucumberJson.attach(await browser.takeScreenshot(), 'image/png');
   },
   /**
    *

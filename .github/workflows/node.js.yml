@@ -21,17 +21,17 @@ jobs:
         node-version: 16.3.0
     - run: npm install
     - run: npm run test:regression
-    - name: Install Allure CommandLine 
-      run: npm i -g allure-commandline
-    - name: Generate Allure Reports
-      run: npm run generate-report
+    # - name: Install Allure CommandLine 
+    #   run: npm i -g allure-commandline
+    # - name: Generate Allure Reports
+    #   run: npm run generate-report
     - run: ls -lrt 
     
     - name: upload artifacts
       uses: actions/upload-artifact@v2
       with:
-        name: allure reports-1
-        path: allure-report
+        name: json-1
+        path: reporter/json
 
   sanity:
     runs-on: ubuntu-latest
@@ -43,19 +43,19 @@ jobs:
         node-version: 16.3.0
     - run: npm install
     - run: npm run test:sanity
-    - name: Install Allure CommandLine 
-      run: npm i -g allure-commandline
-    - name: Generate Allure Reports
-      run: npm run generate-report
+    # - name: Install Allure CommandLine 
+    #   run: npm i -g allure-commandline
+    # - name: Generate Allure Reports
+    #   run: npm run generate-report
     - run: ls -lrt 
     
     - name: upload artifacts
       uses: actions/upload-artifact@v2
       with:
-        name: allure reports-2
-        path: allure-report      
+        name: json-2
+        path: reporter/json      
     
-  alltests:
+  final_report:
     needs: [regression, sanity]
     runs-on: ubuntu-latest
     steps:
@@ -64,16 +64,33 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: 16.3.0
-    - run: npm install
-    - run: npm run test
-    - name: Install Allure CommandLine 
-      run: npm i -g allure-commandline
-    - name: Generate Allure Reports
-      run: npm run generate-report
+
+        # Download First Json file for regression
+    - name: Download Artifact-1
+      uses: actions/download-artifact@master
+      with:
+        name: json-1
+        path: ./report-1 
+
+      # Download Second Json file for sanity
+    - name: Download Artifact-2
+      uses: actions/download-artifact@master
+      with:
+        name: json-2
+        path: ./report-2  
     - run: ls -lrt 
     
-    - name: upload artifacts
+    # Run command to generate Html report
+    - name: Install
+        run: npm install  
+    - run: |
+        mkdir reporter/json
+        mv -v report-1/*.json ./reporter/json/report_1.json
+        mv -v report-2/*.json ./reporter/json/report_2.json 
+        npm run generate-report:cucumber-html
+        
+    - name: Final Test Reports
       uses: actions/upload-artifact@v2
       with:
-        name: allure reports-3
-        path: allure-report        
+        name: final-report
+        path: reporter        
