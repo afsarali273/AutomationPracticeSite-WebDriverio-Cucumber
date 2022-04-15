@@ -1,12 +1,12 @@
-import allureReporter from '@wdio/allure-reporter'
-import cucumberJson from 'wdio-cucumberjs-json-reporter';
+import allureReporter from "@wdio/allure-reporter";
+import cucumberJson from "wdio-cucumberjs-json-reporter";
 
 let allure_config = {
-  outputDir: 'allure-results',
+  outputDir: "allure-results",
   disableWebdriverStepsReporting: true,
   disableWebdriverScreenshotsReporting: false,
   useCucumberStepReporter: true,
-  addConsoleLogs: true
+  addConsoleLogs: true,
 };
 
 exports.config = {
@@ -103,7 +103,12 @@ exports.config = {
   // Services take over a specific job you don't want to take care of. They enhance
   // your test setup with almost no effort. Unlike plugins, they don't add new
   // commands. Instead, they hook themselves up into the test process.
-  services: ["chromedriver"],
+  // services: ["chromedriver"],
+  services: [],
+  hostname: process.env.HOST_NAME || "localhost",
+  port: 4444,
+  path: "/wd/hub/",
+  protocol: "http",
 
   // Framework you want to run your specs with.
   // The following are supported: Mocha, Jasmine, and Cucumber
@@ -125,12 +130,17 @@ exports.config = {
   // Test reporter for stdout.
   // The only one supported by default is 'dot'
   // see also: https://webdriver.io/docs/dot-reporter
-  reporters: ["spec", ['allure', allure_config],
+  reporters: [
+    "spec",
+    ["allure", allure_config],
 
-    ['cucumberjs-json', {
-      jsonFolder: 'reporter/json/',
-      language: 'en',
-    },],
+    [
+      "cucumberjs-json",
+      {
+        jsonFolder: "reporter/json/",
+        language: "en",
+      },
+    ],
   ],
 
   //
@@ -226,7 +236,6 @@ exports.config = {
    * @param {GherkinDocument.IFeature} feature  Cucumber feature object
    */
   beforeFeature: async function (uri, feature) {
-
     allureReporter.addStep("Starting Fetaure : " + feature.name);
 
     await browser.maximizeWindow();
@@ -237,7 +246,6 @@ exports.config = {
    * @param {ITestCaseHookParameter} world world object containing information on pickle and test step
    */
   beforeScenario: async function (world) {
-
     await allureReporter.addFeature(world.name);
   },
   /**
@@ -259,8 +267,7 @@ exports.config = {
    * @param {number}             result.duration duration of scenario in milliseconds
    */
   afterStep: async function (step, scenario, result) {
-
-    cucumberJson.attach(await browser.takeScreenshot(), 'image/png');
+    cucumberJson.attach(await browser.takeScreenshot(), "image/png");
   },
   /**
    *
