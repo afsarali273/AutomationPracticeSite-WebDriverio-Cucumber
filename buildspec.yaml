@@ -20,6 +20,7 @@ phases:
   build:
     commands:
       - docker build -t test1 .
+      - docker run test1
   post_build:
     commands:
       - docker exec selenium pgrep ffmpeg > pidfile
