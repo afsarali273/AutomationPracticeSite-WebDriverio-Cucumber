@@ -19,8 +19,7 @@ phases:
       # - docker exec -d selenium ffmpeg -video_size 1360x1020 -framerate 15 -f x11grab -i :99.0 -vf format=yuv420p /home/seluser/recording.mp4
   build:
     commands:
-      - npm run test
-      - npm run generate-report:cucumber-html
+      - docker build -t test1 .
   post_build:
     commands:
       - docker exec selenium pgrep ffmpeg > pidfile
