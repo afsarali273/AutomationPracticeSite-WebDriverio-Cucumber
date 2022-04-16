@@ -1,0 +1,43 @@
+version: 0.2
+# env:
+#   variables:
+#     APP_TARGET_URL: https://qa1.example.com
+#   secrets-manager:
+#     APP_CREDENTIALS: MySecretsManagerItem:app_credentials
+phases:
+  install:
+    runtime-versions:
+      docker: 18
+      nodejs: 10
+    commands:
+      - docker pull selenium/standalone-chrome:latest
+      - npm install
+  pre_build:
+    commands:
+      - docker run -d -p 4444:4444 -v /dev/shm:/dev/shm --name selenium selenium/standalone-chrome:latest
+      - docker exec -u 0 selenium /bin/bash -c 'apt-get update && apt-get install -y ffmpeg && rm -rf /var/lib/apt/lists/*'
+      - docker exec -d selenium ffmpeg -video_size 1360x1020 -framerate 15 -f x11grab -i :99.0 -vf format=yuv420p /home/seluser/recording.mp4
+  build:
+    commands:
+      - |
+        # SELENIUM_SERVER_URL="http://localhost:4444/wd/hub" \
+        # SELENIUM_BROWSER="chrome" \
+        # npm run test -- \
+        #   --format json:test-integration/report.json \
+        #   --format node_modules/cucumber-pretty
+        npm run test 
+        npm run generate-report:cucumber-html
+  post_build:
+    commands:
+      - docker exec selenium pgrep ffmpeg > pidfile
+      - docker exec selenium kill -INT $(cat pidfile)
+      - docker exec selenium /bin/bash -c "while \$(kill -0 $(cat pidfile) 2>/dev/null); do sleep 1; done"
+      - docker cp selenium:/home/seluser/recording.mp4 recording.mp4
+artifacts:
+  files:
+    - recording.mp4
+reports:
+  Selenium:
+    file-format: CucumberJson
+    files:
+      - test-integration/report.json
