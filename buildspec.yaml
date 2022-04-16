@@ -20,11 +20,6 @@ phases:
   build:
     commands:
       - |
-        # SELENIUM_SERVER_URL="http://localhost:4444/wd/hub" \
-        # SELENIUM_BROWSER="chrome" \
-        # npm run test -- \
-        #   --format json:test-integration/report.json \
-        #   --format node_modules/cucumber-pretty
         npm run test 
         npm run generate-report:cucumber-html
   post_build:
