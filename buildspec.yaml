@@ -10,8 +10,9 @@ phases:
       docker: 19
       nodejs: latest
     commands:
-      - docker pull selenium/standalone-chrome:latest
-      - npm install
+      - echo "Login to AWS"
+      - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 784470602602.dkr.ecr.us-east-1.amazonaws.com
+      - docker pull 784470602602.dkr.ecr.us-east-1.amazonaws.com/selenium-chrome-grid:latest
   pre_build:
     commands:
       - docker run -d -p 4444:4444 -v /dev/shm:/dev/shm --name selenium selenium/standalone-chrome:latest
@@ -19,19 +20,21 @@ phases:
       # - docker exec -d selenium ffmpeg -video_size 1360x1020 -framerate 15 -f x11grab -i :99.0 -vf format=yuv420p /home/seluser/recording.mp4
   build:
     commands:
-      - docker build -t test1 .
-      - docker run test1
+      - docker build -t 784470602602.dkr.ecr.us-east-1.amazonaws.com/webdriverio-test:latest .
+      - docker push 784470602602.dkr.ecr.us-east-1.amazonaws.com/webdriverio-test:latest
+      - docker run 784470602602.dkr.ecr.us-east-1.amazonaws.com/webdriverio-test:latest
   post_build:
     commands:
-      - docker exec selenium pgrep ffmpeg > pidfile
-      - docker exec selenium kill -INT $(cat pidfile)
-      - docker exec selenium /bin/bash -c "while \$(kill -0 $(cat pidfile) 2>/dev/null); do sleep 1; done"
-      - docker cp selenium:/home/seluser/recording.mp4 recording.mp4
-artifacts:
-  files:
-    - recording.mp4
-reports:
-  Selenium:
-    file-format: CucumberJson
-    files:
-      - test-integration/report.json
+      - echo "execution completed"
+      # - docker exec selenium pgrep ffmpeg > pidfile
+      # - docker exec selenium kill -INT $(cat pidfile)
+      # - docker exec selenium /bin/bash -c "while \$(kill -0 $(cat pidfile) 2>/dev/null); do sleep 1; done"
+      # - docker cp selenium:/home/seluser/recording.mp4 recording.mp4
+# artifacts:
+#   files:
+#     - recording.mp4
+# reports:
+#   Selenium:
+#     file-format: CucumberJson
+#     files:
+#       - test-integration/report.json
