@@ -21,8 +21,9 @@ phases:
   build:
     commands:
       - docker build -t 784470602602.dkr.ecr.us-east-1.amazonaws.com/webdriverio-test:latest .
-      - docker push 784470602602.dkr.ecr.us-east-1.amazonaws.com/webdriverio-test:latest
-      - docker run 784470602602.dkr.ecr.us-east-1.amazonaws.com/webdriverio-test:latest
+      # - docker push 784470602602.dkr.ecr.us-east-1.amazonaws.com/webdriverio-test:latest
+      - docker ps -a
+      - docker run --env HOST_NAME=selenium 784470602602.dkr.ecr.us-east-1.amazonaws.com/webdriverio-test:latest
   post_build:
     commands:
       - echo "execution completed"
