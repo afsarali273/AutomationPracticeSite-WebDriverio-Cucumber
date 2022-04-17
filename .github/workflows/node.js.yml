@@ -5,95 +5,103 @@ name: WebDriverIO CI
 
 on:
   push:
-    branches: [ master ]
+    branches: [youtube/class5]
   pull_request:
-    branches: [ master ]
+    branches: [master]
 
 jobs:
   regression:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-    - name: SetUp NodeJs
-      uses: actions/setup-node@v1
-      with:
-        node-version: 16.3.0
-    - run: npm install
-    - run: npm run test:regression
-    # - name: Install Allure CommandLine 
-    #   run: npm i -g allure-commandline
-    # - name: Generate Allure Reports
-    #   run: npm run generate-report
-    - run: ls -lrt 
-    
-    - name: upload artifacts
-      if: always()
-      uses: actions/upload-artifact@v2
-      with:
-        name: json-1
-        path: reporter/json
+      - uses: actions/checkout@v2
+      - name: SetUp NodeJs
+        uses: actions/setup-node@v1
+        with:
+          node-version: 16.3.0
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v1
 
-  sanity:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2
-    - name: SetUp NodeJs
-      uses: actions/setup-node@v1
-      with:
-        node-version: 16.3.0
-    - run: npm install
-    - run: npm run test:sanity
-    # - name: Install Allure CommandLine 
-    #   run: npm i -g allure-commandline
-    # - name: Generate Allure Reports
-    #   run: npm run generate-report
-    - run: ls -lrt 
-    
-    - name: upload artifacts
-      if: always()
-      uses: actions/upload-artifact@v2
-      with:
-        name: json-2
-        path: reporter/json      
-    
-  final_report:
-    if: always()
-    needs: [regression, sanity]
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2
-    - name: SetUp NodeJs
-      uses: actions/setup-node@v1
-      with:
-        node-version: 16.3.0
+      - name: Build Docker image
+        uses: docker/build-push-action@v2
+        with:
+          context: ./
+          file: ./Dockerfile
+          builder: ${{ steps.buildx.outputs.name }}
+          load: true
+          tags: automationtest_image:latest
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache
 
-        # Download First Json file for regression
-    - name: Download Artifact-1
-      uses: actions/download-artifact@master
-      with:
-        name: json-1
-        path: ./report-1 
+      - name: Run Docker container
+        run: docker run automationtest_image:latest
+      - run: ls -lrt
 
-      # Download Second Json file for sanity
-    - name: Download Artifact-2
-      uses: actions/download-artifact@master
-      with:
-        name: json-2
-        path: ./report-2  
-    - run: ls -lrt 
-    
-    # Run command to generate Html report
-    - name: Install
-      run: npm install  
-    - run: |
-        mkdir reporter/json
-        mv -v report-1/*.json ./reporter/json/report_1.json
-        mv -v report-2/*.json ./reporter/json/report_2.json 
-        npm run generate-report:cucumber-html
+      # - name: upload artifacts
+      #   if: always()
+      #   uses: actions/upload-artifact@v2
+      #   with:
+      #     name: json-1
+      #     path: reporter/json
 
-    - name: Final Test Reports
-      uses: actions/upload-artifact@v2
-      with:
-        name: final-report
-        path: reporter        
+  # sanity:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - name: SetUp NodeJs
+  #       uses: actions/setup-node@v1
+  #       with:
+  #         node-version: 16.3.0
+  #     - run: npm install
+  #     - run: npm run test:sanity
+
+  #     - run: ls -lrt
+
+  #     - name: upload artifacts
+  #       if: always()
+  #       uses: actions/upload-artifact@v2
+  #       with:
+  #         name: json-2
+  #         path: reporter/json
+
+  # final_report:
+  #   if: always()
+  #   needs: [regression, sanity]
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - name: SetUp NodeJs
+  #       uses: actions/setup-node@v1
+  #       with:
+  #         node-version: 16.3.0
+
+  #         # Download First Json file for regression
+  #     - name: Download Artifact-1
+  #       uses: actions/download-artifact@master
+  #       with:
+  #         name: json-1
+  #         path: ./report-1
+
+  #       # Download Second Json file for sanity
+  #     - name: Download Artifact-2
+  #       uses: actions/download-artifact@master
+  #       with:
+  #         name: json-2
+  #         path: ./report-2
+  #     - run: ls -lrt
+
+  #     # Run command to generate Html report
+  #     - name: Install
+  #       run: npm install
+  #     - run: |
+  #         mkdir reporter/json
+  #         mv -v report-1/*.json ./reporter/json/report_1.json
+  #         mv -v report-2/*.json ./reporter/json/report_2.json
+  #         npm run generate-report:cucumber-html
+
+  #     - name: Final Test Reports
+  #       uses: actions/upload-artifact@v2
+  #       with:
+  #         name: final-report
+  #         path: reporter
