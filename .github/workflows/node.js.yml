@@ -47,18 +47,16 @@ jobs:
           docker run --env HOST_NAME=selenium --network selenium_auto --volume "$(pwd)"/reporter:/app/reporter  automationtest_image:latest
       - name: Check Reports
         run: |
-          ls -lrt 
           ls -lrt reporter
       # - name: Run Docker container
       #   run: docker run --env HOST_NAME=selenium --network selenium_auto  automationtest_image:latest
-      # - run: ls -lrt
 
-      # - name: upload artifacts
-      #   if: always()
-      #   uses: actions/upload-artifact@v2
-      #   with:
-      #     name: json-1
-      #     path: reporter/json
+      - name: upload artifacts
+        if: always()
+        uses: actions/upload-artifact@v2
+        with:
+          name: htmlreports
+          path: reporter/cucumber_report.html
 
   # sanity:
   #   runs-on: ubuntu-latest
