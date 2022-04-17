@@ -35,7 +35,7 @@ jobs:
           cache-to: type=local,dest=/tmp/.buildx-cache
       - name: Run selenium Grid for Chrome
         run: |
-          docker create network selenium_auto
+          docker network create selenium_auto || true
           docker run -d -p 4444:4444 --shm-size="2g" --network selenium_auto --name selenium selenium/standalone-chrome:4.1.3-20220405
 
       - name: Run Docker container
