@@ -46,8 +46,10 @@ jobs:
       - name: Run selenium Grid for Chrome
         run: |
           docker run --env HOST_NAME=selenium --network selenium_auto --volume "$(pwd)"/reporter1:/app/reporter  automationtest_image:latest
-           ls -lrt 
-           ls -lrt reporter1
+      - name: Check Reports
+        run: |
+          ls -lrt 
+          ls -lrt reporter1
       # - name: Run Docker container
       #   run: docker run --env HOST_NAME=selenium --network selenium_auto  automationtest_image:latest
       # - run: ls -lrt

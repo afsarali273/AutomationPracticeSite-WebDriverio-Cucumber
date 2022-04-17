@@ -8,7 +8,7 @@
     "test:sanity": "./node_modules/.bin/wdio run wdio.conf.js --cucumberOpts.tagExpression='@sanity'",
     "test:regression": "./node_modules/.bin/wdio run wdio.conf.js --cucumberOpts.tagExpression='@regression'",
     "generate-report": "allure generate allure-results --clean",
-    "generate-report:cucumber-html": "node reporter/index.js"
+    "generate-report:cucumber-html": "node app/reporter/index.js"
   },
   "author": "Afsar Ali",
   "license": "ISC",
