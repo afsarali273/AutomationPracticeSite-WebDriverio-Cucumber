@@ -36,11 +36,12 @@ jobs:
       - name: Run selenium Grid for Chrome
         run: |
           docker network create selenium_auto || true
-          docker run -d -p 4444:4444 --shm-size="2g" --network selenium_auto --network-alias selenium --name selenium selenium/standalone-chrome:4.1.3-20220405
+          docker run -d -p 4444:4444 -v /dev/shm:/dev/shm --network selenium_auto --name selenium --network-alias selenium selenium/standalone-chrome:4.1.3-20220405
+          docker run --env HOST_NAME=selenium --network selenium_auto  automationtest_image:latest
 
-      - name: Run Docker container
-        run: docker run --network selenium_auto --env HOST_NAME="selenium"  automationtest_image:latest
-      - run: ls -lrt
+      # - name: Run Docker container
+      #   run: docker run --env HOST_NAME=selenium --network selenium_auto  automationtest_image:latest
+      # - run: ls -lrt
 
       # - name: upload artifacts
       #   if: always()
