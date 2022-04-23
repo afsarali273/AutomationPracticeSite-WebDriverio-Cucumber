@@ -39,6 +39,12 @@ jobs:
       run: docker images -a   
       
     - name: Run Automation test
-      run: docker run automationtest_image:latest
+      run: docker run --volume "$(pwd)"/reporter:/app/reporter automationtest_image:latest
   
+    - name: upload artifacts
+      if: always()
+      uses: actions/upload-artifact@v2
+        with:
+          name: htmlreports
+          path: reporter/cucumber_report.html
    
