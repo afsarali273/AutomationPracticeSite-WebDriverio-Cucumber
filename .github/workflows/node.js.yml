@@ -36,6 +36,9 @@ jobs:
         cache-to: type=local,dest=/tmp/.buildx-cache
         
     - name: Check docker image
-      run: docker images -a    
+      run: docker images -a   
+      
+    - name: Run Automation test
+      run: docker run automationtest_image:latest
   
    
