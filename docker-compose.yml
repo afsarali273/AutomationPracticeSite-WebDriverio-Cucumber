@@ -2,6 +2,8 @@ version: "3"
 services:
   chrome:
     image: selenium/node-chrome:4.1.3-20220405
+    tty: false
+    stdin_open: false
     shm_size: 2gb
     depends_on:
       - selenium-hub
@@ -12,6 +14,8 @@ services:
 
   edge:
     image: selenium/node-edge:4.1.3-20220405
+    tty: false
+    stdin_open: false
     shm_size: 2gb
     depends_on:
       - selenium-hub
@@ -22,6 +26,8 @@ services:
 
   firefox:
     image: selenium/node-firefox:4.1.3-20220405
+    tty: false
+    stdin_open: false
     shm_size: 2gb
     depends_on:
       - selenium-hub
@@ -32,6 +38,8 @@ services:
 
   selenium-hub:
     image: selenium/hub:4.1.3-20220405
+    tty: false
+    stdin_open: false
     container_name: selenium-hub
     ports:
       - "4442:4442"
@@ -52,3 +60,8 @@ services:
       - HOST_NAME=selenium-hub
     volumes:
       - ./reporter:/app/reporter
+
+
+
+      # Make sure to run using below command `docker-compose up --exit-code-from automation`
+      # `--exit-code-from automation` command will exist all service if automation exits 
