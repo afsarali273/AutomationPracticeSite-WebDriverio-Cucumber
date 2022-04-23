@@ -5,7 +5,7 @@ name: WebDriverIO CI
 
 on:
   push:
-    branches: [ master ]
+    branches: [ youtube/class5 ]
   pull_request:
     branches: [ master ]
 
