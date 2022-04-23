@@ -40,7 +40,12 @@ jobs:
         # Create network 
         docker network create selenium_auto || true
         docker run -d -p 4444:4444 --shm-size="2g" --network selenium_auto --name seleniumgrid --network-alias seleniumgrid  selenium/standalone-chrome:4.1.3-20220405    
-       
+   
+    - name: Sleep for 15 seconds
+      uses: whatnick/wait-action@master
+      with:
+        time: "15s"   
+
     - name: Check docker image
       run: docker images -a   
       
