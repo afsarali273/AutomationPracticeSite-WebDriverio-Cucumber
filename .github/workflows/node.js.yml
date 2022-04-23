@@ -44,7 +44,7 @@ jobs:
     - name: upload artifacts
       if: always()
       uses: actions/upload-artifact@v2
-        with:
-          name: htmlreports
-          path: reporter/cucumber_report.html
+      with:
+        name: htmlreports
+        path: reporter/cucumber_report.html
    
