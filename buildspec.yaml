@@ -35,10 +35,6 @@ phases:
       - docker exec wdio_test /bin/sh -c "node reporter/index.js ;"
       - ls -lrt reporter
       - ls -lrt reporter/json
-      # - docker exec selenium pgrep ffmpeg > pidfile
-      # - docker exec selenium kill -INT $(cat pidfile)
-      # - docker exec selenium /bin/bash -c "while \$(kill -0 $(cat pidfile) 2>/dev/null); do sleep 1; done"
-      # - docker cp selenium:/home/seluser/recording.mp4 recording.mp4
 artifacts:
   files:
     - reporter/cucumber_report.html
