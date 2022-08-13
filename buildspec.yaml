@@ -11,23 +11,25 @@ phases:
       nodejs: latest
     commands:
       - echo "Login to AWS"
-      - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 784470602602.dkr.ecr.us-east-1.amazonaws.com
-      - docker pull 784470602602.dkr.ecr.us-east-1.amazonaws.com/selenium-chrome-grid:latest
+      - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 237245230124.dkr.ecr.us-east-2.amazonaws.com
+      - docker pull 237245230124.dkr.ecr.us-east-2.amazonaws.com/selenium-chrome-grid:latest
   pre_build:
     commands:
       - docker network create automation_network || true
-      - docker run -d -p 4444:4444 -v /dev/shm:/dev/shm --network automation_network --name selenium --network-alias selenium 784470602602.dkr.ecr.us-east-1.amazonaws.com/selenium-chrome-grid:latest
+      - docker run -d -p 4444:4444 -v /dev/shm:/dev/shm --network automation_network --name selenium --network-alias selenium 237245230124.dkr.ecr.us-east-2.amazonaws.com/selenium-chrome-grid:latest
       # - docker exec -u 0 selenium /bin/bash -c 'apt-get update && apt-get install -y ffmpeg && rm -rf /var/lib/apt/lists/*'
       # - docker exec -d selenium ffmpeg -video_size 1360x1020 -framerate 15 -f x11grab -i :99.0 -vf format=yuv420p /home/seluser/recording.mp4
   build:
     commands:
-      - docker build -t 784470602602.dkr.ecr.us-east-1.amazonaws.com/webdriverio-test:latest .
+      - docker build -t 237245230124.dkr.ecr.us-east-2.amazonaws.com/webdriverio-test:latest .
       # - docker push 784470602602.dkr.ecr.us-east-1.amazonaws.com/webdriverio-test:latest
       - docker ps -a
-      - docker run --env HOST_NAME=selenium --network automation_network 784470602602.dkr.ecr.us-east-1.amazonaws.com/webdriverio-test:latest
+      - docker run --env HOST_NAME=selenium --network automation_network --volume "$(pwd)"/reporter:/app/reporter 237245230124.dkr.ecr.us-east-2.amazonaws.com/webdriverio-test:latest
   post_build:
     commands:
       - echo "execution completed"
+      - ls -lrt
+      - ls -lrt reporter
       # - docker exec selenium pgrep ffmpeg > pidfile
       # - docker exec selenium kill -INT $(cat pidfile)
       # - docker exec selenium /bin/bash -c "while \$(kill -0 $(cat pidfile) 2>/dev/null); do sleep 1; done"
