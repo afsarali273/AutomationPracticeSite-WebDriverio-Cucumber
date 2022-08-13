@@ -32,7 +32,7 @@ phases:
       - ls -lrt
       - ls -lrt reporter
       - docker start wdio_test
-      - docker exec wdio_test /bin/bash -c "node reporter/index.js ;"
+      - docker exec wdio_test /bin/sh -c "node reporter/index.js ;"
       - ls -lrt reporter
       # - docker exec selenium pgrep ffmpeg > pidfile
       # - docker exec selenium kill -INT $(cat pidfile)
