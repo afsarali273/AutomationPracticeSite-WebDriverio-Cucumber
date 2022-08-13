@@ -1,4 +1,4 @@
-FROM node:alpine
+FROM 237245230124.dkr.ecr.us-east-2.amazonaws.com/node-alpine:latest
 WORKDIR /app
 ADD . /app
 
