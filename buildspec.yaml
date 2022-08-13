@@ -46,4 +46,4 @@ reports:
   Selenium:
     file-format: CucumberJson
     files:
-      - reporter/json/cucumber_report.html.json
+      - reporter/json/signup-sign-in-and-purchase-product.json
