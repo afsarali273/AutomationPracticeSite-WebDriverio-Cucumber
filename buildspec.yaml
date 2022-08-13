@@ -1,9 +1,4 @@
 version: 0.2
-# env:
-#   variables:
-#     APP_TARGET_URL: https://qa1.example.com
-#   secrets-manager:
-#     APP_CREDENTIALS: MySecretsManagerItem:app_credentials
 phases:
   install:
     runtime-versions:
