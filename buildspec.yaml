@@ -11,7 +11,7 @@ phases:
       nodejs: latest
     commands:
       - echo "Login to AWS"
-      - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 237245230124.dkr.ecr.us-east-2.amazonaws.com
+      # - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 237245230124.dkr.ecr.us-east-2.amazonaws.com
       - docker pull 237245230124.dkr.ecr.us-east-2.amazonaws.com/selenium-chrome-grid:latest
   pre_build:
     commands:
