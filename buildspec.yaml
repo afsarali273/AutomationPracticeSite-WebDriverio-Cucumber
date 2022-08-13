@@ -30,6 +30,8 @@ phases:
       - echo "execution completed"
       - ls -lrt
       - ls -lrt reporter
+      - npm install -g cucumber-html-reporter
+      - node reporter/index.js
       # - docker exec selenium pgrep ffmpeg > pidfile
       # - docker exec selenium kill -INT $(cat pidfile)
       # - docker exec selenium /bin/bash -c "while \$(kill -0 $(cat pidfile) 2>/dev/null); do sleep 1; done"
