@@ -31,8 +31,8 @@ phases:
       - echo "execution completed"
       - ls -lrt
       - ls -lrt reporter
-      - docker start wdio_test
-      - docker exec -it wdio_test bash -c "cd app ; node reporter/index.js ;"
+      - docker start -a wdio_test
+      - docker exec -i wdio_test bash -c "node reporter/index.js ;"
       - ls -lrt reporter
       # - docker exec selenium pgrep ffmpeg > pidfile
       # - docker exec selenium kill -INT $(cat pidfile)
