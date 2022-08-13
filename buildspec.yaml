@@ -24,14 +24,14 @@ phases:
       - docker build -t 237245230124.dkr.ecr.us-east-2.amazonaws.com/webdriverio-test:latest .
       # - docker push 784470602602.dkr.ecr.us-east-1.amazonaws.com/webdriverio-test:latest
       - docker ps -a
-      - docker run --env HOST_NAME=selenium --network automation_network --volume "$(pwd)"/reporter:/app/reporter 237245230124.dkr.ecr.us-east-2.amazonaws.com/webdriverio-test:latest
+      - docker run --env HOST_NAME=selenium --network automation_network --volume "$(pwd)"/app:/app 237245230124.dkr.ecr.us-east-2.amazonaws.com/webdriverio-test:latest
   post_build:
     commands:
       - echo "execution completed"
-      - ls -lrt
-      - ls -lrt reporter
-      - node reporter/index.js
-      - ls -lrt reporter
+      - ls -lrt app
+      - ls -lrt app/reporter
+      - node app/reporter/index.js
+      - ls -lrt app/reporter
       # - docker exec selenium pgrep ffmpeg > pidfile
       # - docker exec selenium kill -INT $(cat pidfile)
       # - docker exec selenium /bin/bash -c "while \$(kill -0 $(cat pidfile) 2>/dev/null); do sleep 1; done"
