@@ -24,14 +24,15 @@ phases:
       - docker build -t 237245230124.dkr.ecr.us-east-2.amazonaws.com/webdriverio-test:latest .
       # - docker push 784470602602.dkr.ecr.us-east-1.amazonaws.com/webdriverio-test:latest
       - docker ps -a
-      - docker run --env HOST_NAME=selenium --network automation_network --volume "$(pwd)"/reporter:/app/reporter 237245230124.dkr.ecr.us-east-2.amazonaws.com/webdriverio-test:latest
+      - docker create --env HOST_NAME=selenium --network automation_network --name wdio_test --volume "$(pwd)"/reporter:/app/reporter 237245230124.dkr.ecr.us-east-2.amazonaws.com/webdriverio-test:latest
+      - docker start wdio_test
   post_build:
     commands:
       - echo "execution completed"
       - ls -lrt
       - ls -lrt reporter
-      - npm install -g cucumber-html-reporter
-      - node reporter/index.js
+      - docker start wdio_test
+      - docker exec -it wdio_test bash -c "cd app ; node reporter/index.js ;"
       - ls -lrt reporter
       # - docker exec selenium pgrep ffmpeg > pidfile
       # - docker exec selenium kill -INT $(cat pidfile)
