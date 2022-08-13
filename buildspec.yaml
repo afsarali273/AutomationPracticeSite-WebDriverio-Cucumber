@@ -43,7 +43,7 @@ artifacts:
   files:
     - reporter/cucumber_report.html
 reports:
-  Selenium:
+  WDIO:
     file-format: CucumberJson
     files:
-      - reporter/json/signup-sign-in-and-purchase-product.json
+      - reporter/json/*.json
