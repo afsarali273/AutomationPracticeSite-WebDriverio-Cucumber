@@ -4,6 +4,8 @@ phases:
   pre_build:
     commands:
       - echo Set up Selenium Grid with Chrome browser ...
+      # - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 237245230124.dkr.ecr.us-east-1.amazonaws.com
+      # - docker pull 237245230124.dkr.ecr.us-east-1.amazonaws.com/selenium-chrome-grid:latest
       - docker pull selenium/standalone-chrome:4.1.3-20220405
       # Create network
       - docker network create automation_network || true
