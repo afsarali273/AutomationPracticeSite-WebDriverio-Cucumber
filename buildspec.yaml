@@ -26,3 +26,9 @@ phases:
       - echo Build completed on `date`
       - ls -lrt
       - ls -lrt reporter
+
+  reports:
+  WDIO:
+    file-format: CucumberJson
+    files:
+      - reporter/json/*.json
