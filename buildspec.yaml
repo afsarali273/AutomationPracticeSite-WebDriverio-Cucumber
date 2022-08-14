@@ -6,7 +6,7 @@ phases:
       - echo Set up Selenium Grid with Chrome browser ...
       - docker pull selenium/standalone-chrome:4.1.3-20220405
       # Create network
-      - docker network create selenium_auto || true
+      - docker network create automation_network || true
       - docker run -d -p 4444:4444 --shm-size="2g" --network automation_network --name seleniumgrid --network-alias seleniumgrid  selenium/standalone-chrome:4.1.3-20220405
 
   build:
