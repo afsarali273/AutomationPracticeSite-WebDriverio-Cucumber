@@ -27,7 +27,7 @@ phases:
       - ls -lrt
       - ls -lrt reporter
 
-  reports:
+reports:
   WDIO:
     file-format: CucumberJson
     files:
