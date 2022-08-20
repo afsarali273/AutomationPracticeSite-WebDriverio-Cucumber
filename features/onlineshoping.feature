@@ -1,5 +1,5 @@
 
-Feature: SignUp, Sign In and Purchase Product
+Feature: SignUp Sign In and Purchase Product
 
     @sanity
     Scenario: TC-001 Create New user/SignUp

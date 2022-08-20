@@ -1,0 +1,44 @@
+version: 0.2
+
+phases:
+  pre_build:
+    commands:
+      - echo Set up Selenium Grid with Chrome browser ...
+      # - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 237245230124.dkr.ecr.us-east-1.amazonaws.com
+      # - docker pull 237245230124.dkr.ecr.us-east-1.amazonaws.com/selenium-chrome-grid:latest
+      - docker pull selenium/standalone-chrome:4.1.3-20220405
+      # Create network
+      - docker network create automation_network || true
+      - docker run -d -p 4444:4444 --shm-size="2g" --network automation_network --name seleniumgrid --network-alias seleniumgrid  selenium/standalone-chrome:4.1.3-20220405
+
+  build:
+    commands:
+      - echo Build started on `date`
+      - echo Building the Docker image...
+
+      - docker build -t wdio-test .
+      - docker ps -a
+
+      # Run Automation Tests
+      - docker create --env HOST_NAME=seleniumgrid --network automation_network --name wdio_test --volume "$(pwd)"/reporter:/app/reporter wdio-test:latest
+      - docker start -a  wdio_test
+      - echo Test Run Completed
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - ls -lrt
+      - ls -lrt reporter
+      - docker start wdio_test
+      # Generate Report
+      - docker exec wdio_test /bin/sh -c "node reporter/index.js ;"
+      - ls -lrt reporter
+
+artifacts:
+  files:
+    - reporter/cucumber_report.html
+
+reports:
+  WDIO:
+    file-format: CucumberJson
+    files:
+      - reporter/json/*.json
